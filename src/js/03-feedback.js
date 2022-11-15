@@ -5,8 +5,8 @@ const formElements = {
 };
 
 formElements.form.addEventListener('submit', onFormSubmit);
-formElements.mail.addEventListener('input', onMailInput);
-formElements.textarea.addEventListener('input', onTextareaInput);
+// formElements.mail.addEventListener('input', onMailInput);
+// formElements.textarea.addEventListener('input', onTextareaInput);
 
 populateTextarea();
 
@@ -16,14 +16,22 @@ function onFormSubmit(e) {
   localStorage.removeItem('feedback-message');
 }
 
-function onTextareaInput(e) {
+// function onTextareaInput(e) {
+//   const message = e.currentTarget.value;
+//   localStorage.setItem('feedback-message', message);
+// }
+
+// function onMailInput(e) {
+//   const mail = e.currentTarget.value;
+//   localStorage.setItem('feedback-mail', mail);
+// }
+
+formElements.form.addEventListener('input', onFormInput);
+function onFormInput(e) {
   const message = e.currentTarget.value;
   localStorage.setItem('feedback-message', message);
-}
-
-function onMailInput(e) {
-  const mail = e.currentTarget.value;
-  localStorage.setItem('feedback-mail', mail);
+  // const mes = e.currentTarget.value;
+  //   localStorage.setItem('feedback-mail', mail);
 }
 
 function populateTextarea() {
