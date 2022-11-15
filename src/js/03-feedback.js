@@ -5,8 +5,6 @@ const formElements = {
 };
 
 formElements.form.addEventListener('submit', onFormSubmit);
-// formElements.mail.addEventListener('input', onMailInput);
-// formElements.textarea.addEventListener('input', onTextareaInput);
 
 populateTextarea();
 
@@ -16,34 +14,22 @@ function onFormSubmit(e) {
   localStorage.removeItem('feedback-message');
 }
 
-// function onTextareaInput(e) {
-//   const message = e.currentTarget.value;
-//   localStorage.setItem('feedback-message', message);
-// }
-
-// function onMailInput(e) {
-//   const mail = e.currentTarget.value;
-//   localStorage.setItem('feedback-mail', mail);
-// }
-
 formElements.form.addEventListener('input', onFormInput);
 function onFormInput(e) {
   const message = e.currentTarget.value;
   localStorage.setItem('feedback-message', message);
-  // const mes = e.currentTarget.value;
-  //   localStorage.setItem('feedback-mail', mail);
 }
 
-function populateTextarea() {
-  const savedMessage = localStorage.getItem('feedback-message');
-  const savedMail = localStorage.getItem('feedback-mail');
+// function populateTextarea() {
+//   const savedMessage = localStorage.getItem('feedback-message');
+//   const savedMail = localStorage.getItem('feedback-mail');
 
-  if (savedMessage && savedMail) {
-    formElements.textarea.value = savedMessage;
-    formElements.mail.value = savedMail;
-  } else if (savedMessage) {
-    formElements.textarea.value = savedMessage;
-  } else if (savedMail) {
-    formElements.mail.value = savedMail;
-  }
-}
+//   if (savedMessage && savedMail) {
+//     formElements.textarea.value = savedMessage;
+//     formElements.mail.value = savedMail;
+//   } else if (savedMessage) {
+//     formElements.textarea.value = savedMessage;
+//   } else if (savedMail) {
+//     formElements.mail.value = savedMail;
+//   }
+// }
