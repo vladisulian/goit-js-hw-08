@@ -1,42 +1,34 @@
-const formElements = {
-  form: document.querySelector('.feedback-form'),
-  mail: document.querySelector('input'),
-  textarea: document.querySelector('.feedback-form textarea'),
+import throttle from 'lodash.throttle';
+
+const form = document.querySelector('.feedback-form');
+const email = document.querySelector('input[name="email"]');
+const message = document.querySelector('textarea[name="message"]');
+const LOCALSTORAGE_KEY = 'feedback-form-state';
+
+form.addEventListener('input', throttle(element => {
+    const objectToSave = { email: email.value, message: message.value };
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(objectToSave));
+}, 500)
+);
+
+form.addEventListener('submit', element => {
+    element.preventDefault();
+    console.log({ email: email.value, message: message.value });
+    form.reset();
+    localStorage.removeItem(LOCALSTORAGE_KEY);
+});
+
+const load = key => {
+    try {
+        const serializedState = localStorage.getItem(key);
+        return serializedState === null ? undefined : JSON.parse(serializedState);
+    } catch (error) {
+        console.error('Отримати помилку стану: ', error.message);
+    }
 };
 
-formElements.form.addEventListener('submit', onFormSubmit);
-formElements.mail.addEventListener('input', onMailInput);
-formElements.textarea.addEventListener('input', onTextareaInput);
-
-populateTextarea();
-
-function onFormSubmit(e) {
-  e.preventDefault();
-  e.currentTarget.reset();
-  localStorage.removeItem('feedback-message');
-  localStorage.removeItem('feedback-mail')
-}
-
-function onTextareaInput(e) {
-  const message = e.currentTarget.value;
-  localStorage.setItem('feedback-message', message);
-}
-
-function onMailInput(e) {
-  const mail = e.currentTarget.value;
-  localStorage.setItem('feedback-mail', mail);
-}
-
-function populateTextarea() {
-  const savedMessage = localStorage.getItem('feedback-message');
-  const savedMail = localStorage.getItem('feedback-mail');
-
-  if (savedMessage && savedMail) {
-    formElements.textarea.value = savedMessage;
-    formElements.mail.value = savedMail;
-  } else if (savedMessage) {
-    formElements.textarea.value = savedMessage;
-  } else if (savedMail) {
-    formElements.mail.value = savedMail;
-  }
+const storageData = load(LOCALSTORAGE_KEY);
+if (storageData) {
+    email.value = storageData.email;
+    message.value = storageData.message;
 }
